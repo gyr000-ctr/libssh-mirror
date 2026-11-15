@@ -43,6 +43,7 @@
 #include "libssh/libssh.h"
 #include "libssh/dh.h"
 #include "libssh/knownhosts.h"
+#include "libssh/krl.h"
 #include "libssh/token.h"
 
 #ifndef MAX_LINE_SIZE
@@ -1193,6 +1194,10 @@ static bool ssh_known_hosts_should_continue_unsafe(ssh_session session,
  *          SSH_KNOWN_HOSTS_NOT_FOUND: The known host file does not exist. The
  *                                     host is thus unknown. File will be
  *                                     created if host key is accepted.\n
+ *          SSH_KNOWN_HOSTS_REVOKED:   The server key or certificate has been
+ *                                     revoked by a key revocation list (KRL)
+ *                                     configured on the session. You HAVE to
+ *                                     treat this as an attack.\n
  *          SSH_KNOWN_HOSTS_ERROR:     There had been an error checking the host.
  *
  * @see ssh_knownhosts_entry_free()
@@ -1206,6 +1211,28 @@ ssh_session_get_known_hosts_entry(ssh_session session,
 
     if (pentry != NULL) {
         *pentry = NULL;
+    }
+
+    /* A revoked host key or certificate is rejected no matter what the
+     * known_hosts files say. When no KRL is configured this is a no-op and
+     * the known_hosts semantics are unchanged. */
+    if (session->opts.krls != NULL) {
+        ssh_key server_pubkey = ssh_dh_get_current_server_publickey(session);
+
+        if (server_pubkey != NULL) {
+            rc = ssh_session_key_is_revoked(session, server_pubkey);
+            if (rc == 1) {
+                ssh_set_error(session,
+                              SSH_REQUEST_DENIED,
+                              "Server host key is revoked by a key "
+                              "revocation list (KRL)");
+                return SSH_KNOWN_HOSTS_REVOKED;
+            } else if (rc == SSH_ERROR) {
+                /* Fail closed: an unusable (e.g. expired) KRL must not be
+                 * silently skipped */
+                return SSH_KNOWN_HOSTS_ERROR;
+            }
+        }
     }
 
     if (session->opts.knownhosts == NULL) {

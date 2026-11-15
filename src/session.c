@@ -44,6 +44,7 @@
 #include "libssh/buffer.h"
 #include "libssh/poll.h"
 #include "libssh/pki.h"
+#include "libssh/krl.h"
 #include "libssh/gssapi.h"
 
 #define FIRST_CHANNEL 42 // why not ? it helps to find bugs.
@@ -369,6 +370,20 @@ void ssh_free(ssh_session session)
     SSH_LIST_FREE(session->opts.proxy_jumps);
     SSH_LIST_FREE(session->opts.proxy_jumps_user_cb);
     SAFE_FREE(session->opts.proxy_jumps_str);
+
+    if (session->opts.krls) {
+        struct ssh_krl_entry_st *entry = NULL;
+
+        for (entry = ssh_list_pop_head(struct ssh_krl_entry_st *,
+                                       session->opts.krls);
+             entry != NULL;
+             entry = ssh_list_pop_head(struct ssh_krl_entry_st *,
+                                       session->opts.krls)) {
+            ssh_krl_entry_free(entry);
+        }
+        ssh_list_free(session->opts.krls);
+        session->opts.krls = NULL;
+    }
 
     if (session->opts.send_env) {
         char *pattern = NULL;

@@ -36,6 +36,7 @@
 #include "libssh/pki.h"
 #include "libssh/options.h"
 #include "libssh/knownhosts.h"
+#include "libssh/krl.h"
 /*todo: remove this include */
 #include "libssh/string.h"
 #include "libssh/token.h"
@@ -336,6 +337,26 @@ int ssh_is_server_known(ssh_session session)
                 "ssh_is_host_known called without cryptographic context");
 
         return SSH_SERVER_ERROR;
+    }
+
+    /* A revoked host key or certificate is always rejected. When no KRL is
+     * configured this is a no-op. */
+    if (session->opts.krls != NULL) {
+        ssh_key server_pubkey = ssh_dh_get_current_server_publickey(session);
+
+        if (server_pubkey != NULL) {
+            int krc = ssh_session_key_is_revoked(session, server_pubkey);
+            if (krc == 1) {
+                ssh_set_error(session,
+                              SSH_REQUEST_DENIED,
+                              "Server host key is revoked by a key "
+                              "revocation list (KRL)");
+                return SSH_SERVER_REVOKED;
+            } else if (krc == SSH_ERROR) {
+                /* Fail closed on unusable (e.g. expired) KRLs */
+                return SSH_SERVER_ERROR;
+            }
+        }
     }
 
     host = ssh_lowercase(session->opts.host);

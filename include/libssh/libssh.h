@@ -220,7 +220,8 @@ enum ssh_server_known_e {
 	SSH_SERVER_KNOWN_OK,
 	SSH_SERVER_KNOWN_CHANGED,
 	SSH_SERVER_FOUND_OTHER,
-	SSH_SERVER_FILE_NOT_FOUND
+	SSH_SERVER_FILE_NOT_FOUND,
+	SSH_SERVER_REVOKED
 };
 
 enum ssh_known_hosts_e {
@@ -258,6 +259,12 @@ enum ssh_known_hosts_e {
      * It is a possible attack.
      */
     SSH_KNOWN_HOSTS_OTHER,
+
+    /**
+     * The server key or certificate is revoked by a key revocation list
+     * (KRL) configured on the session. You HAVE to treat this as an attack.
+     */
+    SSH_KNOWN_HOSTS_REVOKED,
 };
 
 #ifndef MD5_DIGEST_LEN
@@ -659,6 +666,25 @@ LIBSSH_API int ssh_session_update_known_hosts(ssh_session session);
 LIBSSH_API enum ssh_known_hosts_e ssh_session_get_known_hosts_entry(ssh_session session,
         struct ssh_knownhosts_entry **pentry);
 LIBSSH_API enum ssh_known_hosts_e ssh_session_is_known_server(ssh_session session);
+
+/* Key Revocation Lists (KRL) */
+typedef struct ssh_krl_struct *ssh_krl;
+
+LIBSSH_API int ssh_krl_import_blob(ssh_session session,
+                                   const unsigned char *data,
+                                   size_t len,
+                                   ssh_krl *pkrl);
+LIBSSH_API int ssh_krl_import_file(ssh_session session,
+                                   const char *filename,
+                                   ssh_krl *pkrl);
+LIBSSH_API void ssh_krl_free(ssh_krl krl);
+LIBSSH_API int ssh_krl_key_is_revoked(ssh_krl krl, ssh_key key);
+LIBSSH_API int ssh_session_krl_add(ssh_session session, ssh_krl krl);
+LIBSSH_API int ssh_session_krl_add_file(ssh_session session,
+                                        const char *filename);
+LIBSSH_API int ssh_session_key_is_revoked(ssh_session session, ssh_key key);
+LIBSSH_API void ssh_session_set_krl_max_age(ssh_session session,
+                                            uint64_t max_age);
 
 /* LOGGING */
 LIBSSH_API int ssh_set_log_level(int level);

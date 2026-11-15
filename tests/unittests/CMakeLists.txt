@@ -14,6 +14,7 @@ set(LIBSSH_UNIT_TESTS
     torture_options
     torture_isipaddr
     torture_knownhosts_parsing
+    torture_krl
     torture_hashes
     torture_packet_filter
     torture_temp_dir

@@ -262,6 +262,8 @@ struct ssh_session_struct {
         char *sshdir;
         char *knownhosts;
         char *global_knownhosts;
+        struct ssh_list *krls; /* list of struct ssh_krl_entry_st */
+        uint64_t krl_max_age;  /* max KRL age in seconds, 0 = no expiry */
         char *wanted_methods[SSH_KEX_METHODS];
         char *pubkey_accepted_types;
         char *ProxyCommand;

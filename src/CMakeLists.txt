@@ -111,6 +111,7 @@ set(libssh_SRCS
   kex.c
   known_hosts.c
   knownhosts.c
+  krl.c
   legacy.c
   log.c
   match.c

@@ -510,6 +510,14 @@ LIBSSH_4_11_0    # Released
 LIBSSH_AFTER_4_11_0
 {
     global:
+        ssh_krl_free;
+        ssh_krl_import_blob;
+        ssh_krl_import_file;
+        ssh_krl_key_is_revoked;
+        ssh_session_key_is_revoked;
+        ssh_session_krl_add;
+        ssh_session_krl_add_file;
+        ssh_session_set_krl_max_age;
         ssh_bind_config_parse_string;
         ssh_options_get_int;
         ssh_session_kex_is_gss;
