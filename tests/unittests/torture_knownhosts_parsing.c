@@ -27,6 +27,33 @@
 #define LOCALHOST_PORT_WILDCARD "[localhost]:* ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7M22fXD7OiS7kGMXP+OoIjCa+J+5sq8SgAZfIOmDgM"
 #define LOCALHOST_STANDARD_PORT "[localhost]:22 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7M22fXD7OiS7kGMXP+OoIjCa+J+5sq8SgAZfIOmDgM"
 
+/*
+ * Certificate / marker test material. The blobs below are the public keys
+ * and OpenSSH host certificates generated from a dedicated test CA. They
+ * are embedded here so the test does not depend on files shipped next to
+ * the build tree.
+ */
+#define TEST_CA_PUBKEY \
+    "localhost ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU7utRkVak1NBW4vGzpfDuQYdY8/oc77uCOvq67xp8S test-ca"
+#define TEST_OTHER_CA_PUBKEY \
+    "localhost ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOa1FK+gRqqq7AZNFZvJMAJFyX/XYDVtPOJn+p4UcrrH other-ca"
+#define TEST_HOST_PUBKEY \
+    "localhost ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrfRH5sPqk7HW7jSe1Q"
+#define TEST_HOST_CERT_VALID \
+    "localhost ssh-ed25519-cert-v01@openssh.com " \
+    "AAAAIHNzaC1lZDI1NTE5LWNlcnQtdjAxQG9wZW5zc2guY29tAAAAIH0Wra3EwLuqyDJf/gBx7ni2r4xk9zsgoZZEL8jxOGMrAAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrfRH5sPqk7HW7jSe1QAAAAAAAAAAAAAAACAAAADmhvc3QtbG9uZ3ZhbGlkAAAAGgAAAAlsb2NhbGhvc3QAAAAJMTI3LjAuMC4xAAAAAF4LcIAAAAAAekK7AAAAAAAAAAAAAAAAAAAAADMAAAALc3NoLWVkMjU1MTkAAAAgtTu61GRVqTU0Fbi8bOl8O5Bh1jz+hzvu4I6+rrvGnxIAAABTAAAAC3NzaC1lZDI1NTE5AAAAQJPGLqE/vjLJDHlTeEupitRZG1I3o+su/k4CsJ4zQrNeshmj49FH2ay8QhZbfHf9S3xLNKSCcAv+NVhNA2sOLQI="
+#define TEST_HOST_CERT_EXPIRED \
+    "localhost ssh-ed25519-cert-v01@openssh.com " \
+    "AAAAIHNzaC1lZDI1NTE5LWNlcnQtdjAxQG9wZW5zc2guY29tAAAAICZe5V0ry9yOQHK+9dWzuShVTAMzH5/wuWUYiiTevrL4AAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrfRH5sPqk7HW7jSe1QAAAAAAAAAAAAAAACAAAACWhvc3QtZXhwMgAAAA0AAAAJbG9jYWxob3N0AAAAAF4LcIAAAAAAXgzCAAAAAAAAAAAAAAAAAAAAADMAAAALc3NoLWVkMjU1MTkAAAAgtTu61GRVqTU0Fbi8bOl8O5Bh1jz+hzvu4I6+rrvGnxIAAABTAAAAC3NzaC1lZDI1NTE5AAAAQOguetGI3ro85PJM3sELemC5qt19t0xT3ZELIjnZ8w/CPpY9jyw4DvcZK7kLkvaV8r6WNLYUaaN68k9aGsZlbgY="
+#define TEST_HOST_CERT_BADPRINC \
+    "localhost ssh-ed25519-cert-v01@openssh.com " \
+    "AAAAIHNzaC1lZDI1NTE5LWNlcnQtdjAxQG9wZW5zc2guY29tAAAAIEsGclRhPA94zYrPg8w75lBq1/akndUt2DVywz9t546iAAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrfRH5sPqk7HW7jSe1QAAAAAAAAAAAAAAACAAAADWhvc3QtYmFkcHJpbmMAAAAQAAAADGV2aWwuZXhhbXBsZQAAAABeC3CAAAAAAHpCuwAAAAAAAAAAAAAAAAAAAAAzAAAAC3NzaC1lZDI1NTE5AAAAILU7utRkVak1NBW4vGzpfDuQYdY8/oc77uCOvq67xp8SAAAAUwAAAAtzc2gtZWQyNTUxOQAAAEDYnnxyIt+dzGIgE9fol1wWIGuCgR8gNluVmychv+WHih5Cr5fwjkQ9jbMIBNKMGVS9WgRsEUQxLo6T1oYsFSsJ"
+#define TEST_HOST_CERT_OTHER_CA \
+    "localhost ssh-ed25519-cert-v01@openssh.com " \
+    "AAAAIHNzaC1lZDI1NTE5LWNlcnQtdjAxQG9wZW5zc2guY29tAAAAIFz0zBBTCaptdmep2RzL/+2oDOPt0ztszBP5PT+UWmWIAAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrfRH5sPqk7HW7jSe1QAAAAAAAAAAAAAAACAAAADGhvc3Qtb3RoZXJjYQAAAA0AAAAJbG9jYWxob3N0AAAAAAAAAAD//////////wAAAAAAAAAAAAAAAAAAADMAAAALc3NoLWVkMjU1MTkAAAAg5rUUr6BGqqrsBk0Vm8kwAkXJf9dgNW084mf6nhRyuscAAABTAAAAC3NzaC1lZDI1NTE5AAAAQIIOoby0BC3CfD/nsrcwIpXkhrmxP+RK3RMvjDbFyerIqzhDNa4imWl7dEaSUg8wHiUsFaonF2LjfNb1tTFlZQA="
+#define TEST_HOST_HASHED \
+    "|1|I3SlbsKQLRLHvcOce8wMP/rGmvc=|/7dZjpwgouis9aIlMgi/F+eVOtk= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrfRH5sPqk7HW7jSe1Q"
+
 #define TMP_FILE_NAME "/tmp/known_hosts_XXXXXX"
 
 const char template[] = "temp_dir_XXXXXX";
@@ -774,6 +801,873 @@ static void torture_knownhosts_has_entry(void **state)
 }
 #endif /* _WIN32 There is no /dev/null on Windows */
 
+/*
+ * Marker line (@cert-authority / @revoked) parsing tests
+ */
+
+static void torture_knownhosts_marker_parse(UNUSED_PARAM(void **state))
+{
+    enum ssh_known_hosts_marker_e marker = SSH_KNOWN_HOSTS_MARKER_NONE;
+    const char *rest = NULL;
+
+    /* No marker */
+    rest = ssh_known_hosts_parse_marker("localhost ssh-ed25519 AAAA", &marker);
+    assert_non_null(rest);
+    assert_int_equal(marker, SSH_KNOWN_HOSTS_MARKER_NONE);
+    assert_string_equal(rest, "localhost ssh-ed25519 AAAA");
+
+    /* cert-authority, case insensitive and with extra whitespace */
+    rest = ssh_known_hosts_parse_marker("@CERT-AUTHORITY   localhost key",
+                                        &marker);
+    assert_non_null(rest);
+    assert_int_equal(marker, SSH_KNOWN_HOSTS_MARKER_CERT_AUTHORITY);
+    assert_string_equal(rest, "localhost key");
+
+    /* revoked, case insensitive */
+    rest = ssh_known_hosts_parse_marker("@REVOKED localhost key", &marker);
+    assert_non_null(rest);
+    assert_int_equal(marker, SSH_KNOWN_HOSTS_MARKER_REVOKED);
+    assert_string_equal(rest, "localhost key");
+
+    /* Unknown marker: skipped, not a hard parse error */
+    rest = ssh_known_hosts_parse_marker("@openssh-something localhost key",
+                                        &marker);
+    assert_non_null(rest);
+    assert_int_equal(marker, SSH_KNOWN_HOSTS_MARKER_UNKNOWN);
+
+    /* Malformed marker lines */
+    assert_null(ssh_known_hosts_parse_marker("@", &marker));
+    assert_null(ssh_known_hosts_parse_marker("@ localhost key", &marker));
+    assert_null(ssh_known_hosts_parse_marker("@revoked", &marker));
+    assert_null(ssh_known_hosts_parse_marker("@revoked, localhost key",
+                                             &marker));
+}
+
+static int setup_marker_file(void **state)
+{
+    char *tmp_file = torture_create_temp_file(TMP_FILE_NAME);
+    assert_non_null(tmp_file);
+    *state = tmp_file;
+    return 0;
+}
+
+static int teardown_marker_file(void **state)
+{
+    char *tmp_file = *state;
+
+    if (tmp_file == NULL) {
+        return -1;
+    }
+    unlink(tmp_file);
+    SAFE_FREE(tmp_file);
+    return 0;
+}
+
+static void torture_knownhosts_read_revoked_entry(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    struct ssh_iterator *it = NULL;
+    struct ssh_knownhosts_internal_entry *ientry = NULL;
+    int rc;
+
+    torture_write_file(knownhosts_file,
+                       "@revoked " TEST_HOST_PUBKEY "\n");
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    assert_non_null(entry_list);
+    it = ssh_list_get_iterator(entry_list);
+    assert_non_null(it);
+
+    ientry = ssh_iterator_value(struct ssh_knownhosts_internal_entry *, it);
+    assert_int_equal(ientry->marker, SSH_KNOWN_HOSTS_MARKER_REVOKED);
+    assert_int_equal(ssh_key_type(ientry->entry.publickey),
+                     SSH_KEYTYPE_ED25519);
+    assert_null(it->next);
+
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+static void torture_knownhosts_read_cert_authority_entry(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    struct ssh_iterator *it = NULL;
+    struct ssh_knownhosts_internal_entry *ientry = NULL;
+    int rc;
+
+    torture_write_file(knownhosts_file,
+                       "@cert-authority " TEST_CA_PUBKEY "\n");
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    assert_non_null(entry_list);
+    it = ssh_list_get_iterator(entry_list);
+    assert_non_null(it);
+
+    ientry = ssh_iterator_value(struct ssh_knownhosts_internal_entry *, it);
+    assert_int_equal(ientry->marker,
+                     SSH_KNOWN_HOSTS_MARKER_CERT_AUTHORITY);
+    assert_int_equal(ssh_key_type(ientry->entry.publickey),
+                     SSH_KEYTYPE_ED25519);
+
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+static void torture_knownhosts_read_hashed_marker_entry(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    struct ssh_iterator *it = NULL;
+    struct ssh_knownhosts_internal_entry *ientry = NULL;
+    int rc;
+
+    /* The hash must resolve to "localhost" */
+    torture_write_file(knownhosts_file,
+                       "@revoked " TEST_HOST_HASHED "\n");
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    assert_non_null(entry_list);
+    it = ssh_list_get_iterator(entry_list);
+    assert_non_null(it);
+
+    ientry = ssh_iterator_value(struct ssh_knownhosts_internal_entry *, it);
+    assert_int_equal(ientry->marker, SSH_KNOWN_HOSTS_MARKER_REVOKED);
+    assert_string_equal(ientry->entry.hostname, "localhost");
+
+    /* The hashed entry must not match a different host */
+    ssh_knownhosts_entries_free(entry_list);
+    entry_list = NULL;
+    rc = ssh_known_hosts_read_entries("other.example",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    assert_null(ssh_list_get_iterator(entry_list));
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+static void torture_knownhosts_marker_duplicate_entries(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    int rc;
+
+    /* The same key with different markers are different entries, but an
+     * exact duplicate is dropped. */
+    torture_write_file(knownhosts_file,
+                       TEST_HOST_PUBKEY "\n"
+                       "@revoked " TEST_HOST_PUBKEY "\n"
+                       "@revoked " TEST_HOST_PUBKEY "\n");
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    assert_int_equal(ssh_list_count(entry_list), 2);
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+static void torture_knownhosts_malformed_marker_line(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    int rc;
+
+    torture_write_file(knownhosts_file,
+                       TEST_HOST_PUBKEY "\n"
+                       "@revoked,\n");
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_ERROR);
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+static void torture_knownhosts_unknown_marker_ignored(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    int rc;
+
+    torture_write_file(knownhosts_file,
+                       "@future-marker " TEST_HOST_PUBKEY "\n"
+                       TEST_HOST_PUBKEY "\n");
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    /* Only the plain line is kept */
+    assert_int_equal(ssh_list_count(entry_list), 1);
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+/*
+ * Host key / certificate verification tests. These call the internal check
+ * function directly with imported keys, avoiding any network interaction.
+ */
+
+static int import_line_key(const char *line, ssh_key *key)
+{
+    char type[128] = {0};
+    char blob[8192] = {0};
+    const char *sp = NULL;
+
+    /* The test material has the form "[hostname|hash] type blob [comment]";
+     * the type is always the last token before the base64 key. */
+    sp = strchr(line, ' ');
+    if (sp == NULL) {
+        return SSH_ERROR;
+    }
+    sp++;
+    if (sscanf(sp, "%127s %8191s", type, blob) != 2) {
+        return SSH_ERROR;
+    }
+
+    if (strcmp(type, "ssh-ed25519") == 0) {
+        return ssh_pki_import_pubkey_base64(blob,
+                                            SSH_KEYTYPE_ED25519,
+                                            key);
+    }
+
+    return ssh_pki_import_cert_base64(
+        blob,
+        ssh_key_type_from_name(type),
+        key);
+}
+
+static void torture_knownhosts_revoked_host_key(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_key = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@revoked " TEST_HOST_PUBKEY "\n");
+
+    rc = import_line_key(TEST_HOST_PUBKEY, &server_key);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_key,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_REVOKED);
+
+    ssh_key_free(server_key);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_revoked_different_key_still_unknown(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_key = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@revoked " LOCALHOST_DEFAULT_ED25519 "\n");
+
+    rc = import_line_key(TEST_HOST_PUBKEY, &server_key);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_key,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_UNKNOWN);
+
+    ssh_key_free(server_key);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_cert_authority_valid(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@cert-authority " TEST_CA_PUBKEY "\n");
+
+    rc = import_line_key(TEST_HOST_CERT_VALID, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+    assert_true(is_cert_type(ssh_key_type(server_cert)));
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_OK);
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_cert_authority_expired(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@cert-authority " TEST_CA_PUBKEY "\n");
+
+    rc = import_line_key(TEST_HOST_CERT_EXPIRED, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_CERT_EXPIRED);
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_cert_authority_unknown_ca(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    /* Trust anchor is a different CA than the one that signed the cert */
+    torture_write_file(knownhosts_file,
+                       "@cert-authority " TEST_OTHER_CA_PUBKEY "\n");
+
+    rc = import_line_key(TEST_HOST_CERT_VALID, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_CERT_UNKNOWN_CA);
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_cert_authority_bad_principal(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@cert-authority " TEST_CA_PUBKEY "\n");
+
+    /* The certificate is correctly signed but names evil.example, not
+     * localhost. */
+    rc = import_line_key(TEST_HOST_CERT_BADPRINC, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_CERT_UNKNOWN_CA);
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_cert_authority_plain_key(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_key = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@cert-authority " TEST_CA_PUBKEY "\n");
+
+    /* A plain key cannot be authenticated by a certificate authority line */
+    rc = import_line_key(TEST_HOST_PUBKEY, &server_key);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_key,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_UNKNOWN);
+
+    ssh_key_free(server_key);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_revoked_certificate(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@revoked " TEST_HOST_CERT_VALID "\n");
+
+    rc = import_line_key(TEST_HOST_CERT_VALID, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_REVOKED);
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_revoked_hashed_host(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_key = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@revoked " TEST_HOST_HASHED "\n");
+
+    rc = import_line_key(TEST_HOST_PUBKEY, &server_key);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_key,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_REVOKED);
+
+    ssh_key_free(server_key);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_revoked_beats_ca(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    /* Both a trusted CA and a revocation of the exact certificate */
+    torture_write_file(knownhosts_file,
+                       "@cert-authority " TEST_CA_PUBKEY "\n"
+                       "@revoked " TEST_HOST_CERT_VALID "\n");
+
+    rc = import_line_key(TEST_HOST_CERT_VALID, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_REVOKED);
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_revoked_case_insensitive(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_key = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    /* The marker must be recognized regardless of its case */
+    torture_write_file(knownhosts_file,
+                       "@ReVoKeD " TEST_HOST_PUBKEY "\n");
+
+    rc = import_line_key(TEST_HOST_PUBKEY, &server_key);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_key,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_REVOKED);
+
+    ssh_key_free(server_key);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_revoked_with_port(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_key = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    /* Marker line using the bracketed host:port notation */
+    torture_write_file(knownhosts_file,
+                       "@revoked [localhost]:2222 ssh-ed25519 "
+                       "AAAAC3NzaC1lZDI1NTE5AAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrf"
+                       "RH5sPqk7HW7jSe1Q\n");
+
+    rc = import_line_key(TEST_HOST_PUBKEY, &server_key);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "[localhost]:2222",
+                                             knownhosts_file,
+                                             server_key,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_REVOKED);
+
+    /* A different port must not match the revocation entry */
+    found = ssh_known_hosts_check_server_key(session,
+                                             "[localhost]:3333",
+                                             knownhosts_file,
+                                             server_key,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_UNKNOWN);
+
+    ssh_key_free(server_key);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_revoked_wildcard(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_key = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@revoked local* ssh-ed25519 "
+                       "AAAAC3NzaC1lZDI1NTE5AAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrf"
+                       "RH5sPqk7HW7jSe1Q\n");
+
+    rc = import_line_key(TEST_HOST_PUBKEY, &server_key);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_key,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_REVOKED);
+
+    ssh_key_free(server_key);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_oversized_marker_line(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    FILE *fp = NULL;
+    char *big = NULL;
+    int rc;
+
+    /*
+     * A line longer than MAX_LINE_SIZE cannot be parsed. The existing line
+     * reader stops at the oversized line and reports E2BIG; the important
+     * guarantee is that the oversized content is never turned into a trusted
+     * entry. A well-formed marker line placed first is still accepted.
+     */
+    big = calloc(1, MAX_LINE_SIZE + 128);
+    assert_non_null(big);
+    memset(big, 'a', MAX_LINE_SIZE + 127);
+
+    fp = fopen(knownhosts_file, "w");
+    assert_non_null(fp);
+    fprintf(fp, "@revoked " TEST_HOST_PUBKEY "\n");
+    fprintf(fp, "@revoked %s\n", big);
+    fclose(fp);
+    free(big);
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    /* Only the well-formed first line produced an entry; the oversized line
+     * must not have been accepted. */
+    assert_int_equal(ssh_list_count(entry_list), 1);
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+static void torture_knownhosts_marker_long_line_bounded(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    int rc;
+
+    /* The longest line that still fits must parse the marker correctly */
+    torture_write_file(knownhosts_file,
+                       "@revoked " TEST_HOST_PUBKEY "\n");
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    assert_int_equal(ssh_list_count(entry_list), 1);
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+static void torture_knownhosts_marker_skips_nonmatching_host(void **state)
+{
+    const char *knownhosts_file = *state;
+    struct ssh_list *entry_list = NULL;
+    int rc;
+
+    /* A marker entry for a different host must not be returned for ours */
+    torture_write_file(knownhosts_file,
+                       "@revoked other.example ssh-ed25519 "
+                       "AAAAC3NzaC1lZDI1NTE5AAAAIJkVjepGrv0L2nR1k9ZkjM4GgJrf"
+                       "RH5sPqk7HW7jSe1Q\n");
+
+    rc = ssh_known_hosts_read_entries("localhost",
+                                      knownhosts_file,
+                                      &entry_list);
+    assert_int_equal(rc, SSH_OK);
+    assert_null(ssh_list_get_iterator(entry_list));
+    ssh_knownhosts_entries_free(entry_list);
+}
+
+static int setup_two_marker_files(void **state)
+{
+    char **paths = calloc(2, sizeof(char *));
+    assert_non_null(paths);
+    paths[0] = torture_create_temp_file(TMP_FILE_NAME);
+    paths[1] = torture_create_temp_file(TMP_FILE_NAME);
+    assert_non_null(paths[0]);
+    assert_non_null(paths[1]);
+    *state = paths;
+    return 0;
+}
+
+static int teardown_two_marker_files(void **state)
+{
+    char **paths = *state;
+
+    if (paths == NULL) {
+        return -1;
+    }
+    unlink(paths[0]);
+    unlink(paths[1]);
+    SAFE_FREE(paths[0]);
+    SAFE_FREE(paths[1]);
+    SAFE_FREE(paths);
+    return 0;
+}
+
+static void torture_knownhosts_revoked_user_file_wins(void **state)
+{
+    char **paths = *state;
+    const char *user_file = paths[0];
+    const char *global_file = paths[1];
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+    int strict = SSH_STRICT_HOSTKEY_OFF;
+
+    assert_non_null(session);
+
+    /* The user file trusts the CA, the global file revokes the certificate.
+     * Revocation in either file must be fatal. */
+    torture_write_file((char *)user_file,
+                       "@cert-authority " TEST_CA_PUBKEY "\n");
+    torture_write_file((char *)global_file,
+                       "@revoked " TEST_HOST_CERT_VALID "\n");
+
+    rc = import_line_key(TEST_HOST_CERT_VALID, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+
+    rc = ssh_options_set(session, SSH_OPTIONS_STRICTHOSTKEYCHECK, &strict);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             user_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             global_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_REVOKED);
+
+    /* Even with strict checking disabled, a revocation must not be
+     * downgraded to an accepted key. */
+    assert_false(ssh_known_hosts_should_continue_unsafe(
+        session, SSH_KNOWN_HOSTS_REVOKED));
+    assert_false(ssh_known_hosts_result_is_fatal(SSH_KNOWN_HOSTS_OK));
+    assert_true(ssh_known_hosts_result_is_fatal(
+        SSH_KNOWN_HOSTS_CERT_EXPIRED));
+    assert_true(ssh_known_hosts_result_is_fatal(
+        SSH_KNOWN_HOSTS_CERT_UNKNOWN_CA));
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_cert_failure_not_downgraded(void **state)
+{
+    char **paths = *state;
+    const char *user_file = paths[0];
+    const char *global_file = paths[1];
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+    int strict = SSH_STRICT_HOSTKEY_OFF;
+
+    assert_non_null(session);
+
+    /* Neither file can validate the certificate: the user file holds an
+     * unrelated CA, the global file has no entry at all. */
+    torture_write_file((char *)user_file,
+                       "@cert-authority " TEST_OTHER_CA_PUBKEY "\n");
+    torture_write_file((char *)global_file, "\n");
+
+    rc = import_line_key(TEST_HOST_CERT_VALID, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+
+    rc = ssh_options_set(session, SSH_OPTIONS_STRICTHOSTKEYCHECK, &strict);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             user_file,
+                                             server_cert,
+                                             NULL);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_CERT_UNKNOWN_CA);
+
+    /* A certificate failure must never be bypassed by relaxed strict host
+     * key checking. */
+    assert_false(ssh_known_hosts_should_continue_unsafe(
+        session, SSH_KNOWN_HOSTS_CERT_UNKNOWN_CA));
+    assert_false(ssh_known_hosts_should_continue_unsafe(
+        session, SSH_KNOWN_HOSTS_CERT_EXPIRED));
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_check_returns_owned_entry(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_key = NULL;
+    struct ssh_knownhosts_entry *entry = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       TEST_HOST_PUBKEY "\n");
+
+    rc = import_line_key(TEST_HOST_PUBKEY, &server_key);
+    assert_int_equal(rc, SSH_OK);
+
+    /* The returned entry must be independently owned and freeable through
+     * the public ssh_knownhosts_entry_free() API. */
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_key,
+                                             &entry);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_OK);
+    assert_non_null(entry);
+    assert_string_equal(entry->hostname, "localhost");
+    assert_non_null(entry->publickey);
+
+    SSH_KNOWNHOSTS_ENTRY_FREE(entry);
+    assert_null(entry);
+
+    ssh_key_free(server_key);
+    ssh_free(session);
+}
+
+static void torture_knownhosts_cert_check_returns_owned_entry(void **state)
+{
+    const char *knownhosts_file = *state;
+    ssh_session session = ssh_new();
+    ssh_key server_cert = NULL;
+    struct ssh_knownhosts_entry *entry = NULL;
+    enum ssh_known_hosts_e found;
+    int rc;
+
+    assert_non_null(session);
+    torture_write_file(knownhosts_file,
+                       "@cert-authority " TEST_CA_PUBKEY "\n");
+
+    rc = import_line_key(TEST_HOST_CERT_VALID, &server_cert);
+    assert_int_equal(rc, SSH_OK);
+
+    found = ssh_known_hosts_check_server_key(session,
+                                             "localhost",
+                                             knownhosts_file,
+                                             server_cert,
+                                             &entry);
+    assert_int_equal(found, SSH_KNOWN_HOSTS_OK);
+    assert_non_null(entry);
+    assert_non_null(entry->publickey);
+
+    SSH_KNOWNHOSTS_ENTRY_FREE(entry);
+    assert_null(entry);
+
+    ssh_key_free(server_cert);
+    ssh_free(session);
+}
+
 int torture_run_tests(void) {
     int rc;
     struct CMUnitTest tests[] = {
@@ -818,6 +1712,106 @@ int torture_run_tests(void) {
                                         setup_bad_knownhosts_file,
                                         teardown_knownhosts_file),
 #endif
+        cmocka_unit_test(torture_knownhosts_marker_parse),
+        cmocka_unit_test_setup_teardown(torture_knownhosts_read_revoked_entry,
+                                        setup_marker_file,
+                                        teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_read_cert_authority_entry,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_read_hashed_marker_entry,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_marker_duplicate_entries,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_malformed_marker_line,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_unknown_marker_ignored,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(torture_knownhosts_revoked_host_key,
+                                        setup_marker_file,
+                                        teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_revoked_different_key_still_unknown,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_cert_authority_valid,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_cert_authority_expired,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_cert_authority_unknown_ca,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_cert_authority_bad_principal,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_cert_authority_plain_key,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_revoked_certificate,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_revoked_hashed_host,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(torture_knownhosts_revoked_beats_ca,
+                                        setup_marker_file,
+                                        teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_revoked_case_insensitive,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(torture_knownhosts_revoked_with_port,
+                                        setup_marker_file,
+                                        teardown_marker_file),
+        cmocka_unit_test_setup_teardown(torture_knownhosts_revoked_wildcard,
+                                        setup_marker_file,
+                                        teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_oversized_marker_line,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_marker_long_line_bounded,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_marker_skips_nonmatching_host,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_revoked_user_file_wins,
+            setup_two_marker_files,
+            teardown_two_marker_files),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_cert_failure_not_downgraded,
+            setup_two_marker_files,
+            teardown_two_marker_files),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_check_returns_owned_entry,
+            setup_marker_file,
+            teardown_marker_file),
+        cmocka_unit_test_setup_teardown(
+            torture_knownhosts_cert_check_returns_owned_entry,
+            setup_marker_file,
+            teardown_marker_file),
     };
 
     ssh_init();

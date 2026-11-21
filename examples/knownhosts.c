@@ -70,6 +70,25 @@ int verify_knownhost(ssh_session session)
     state = ssh_session_is_known_server(session);
 
     switch(state) {
+    case SSH_KNOWN_HOSTS_REVOKED:
+        fprintf(stderr,
+                "The server host key or certificate has been revoked.\n");
+        fprintf(stderr, "For security reasons, the connection will be stopped\n");
+        ssh_clean_pubkey_hash(&hash);
+        return -1;
+    case SSH_KNOWN_HOSTS_CERT_EXPIRED:
+        fprintf(stderr,
+                "The server host certificate is expired or not yet valid.\n");
+        fprintf(stderr, "For security reasons, the connection will be stopped\n");
+        ssh_clean_pubkey_hash(&hash);
+        return -1;
+    case SSH_KNOWN_HOSTS_CERT_UNKNOWN_CA:
+        fprintf(stderr,
+                "The server host certificate is not signed by a trusted "
+                "certificate authority.\n");
+        fprintf(stderr, "For security reasons, the connection will be stopped\n");
+        ssh_clean_pubkey_hash(&hash);
+        return -1;
     case SSH_KNOWN_HOSTS_CHANGED:
         fprintf(stderr,"Host key for server changed : server's one is now :\n");
         ssh_print_hash(SSH_PUBLICKEY_HASH_SHA256, hash, hlen);

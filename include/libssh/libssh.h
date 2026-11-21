@@ -258,6 +258,25 @@ enum ssh_known_hosts_e {
      * It is a possible attack.
      */
     SSH_KNOWN_HOSTS_OTHER,
+
+    /**
+     * The server key or certificate has been explicitly revoked using a
+     * @revoked marker in a known_hosts file. The connection must be refused.
+     */
+    SSH_KNOWN_HOSTS_REVOKED,
+
+    /**
+     * The server presented a certificate whose validity period does not cover
+     * the current time. The connection must be refused.
+     */
+    SSH_KNOWN_HOSTS_CERT_EXPIRED,
+
+    /**
+     * The server presented a certificate that is not signed by any of the
+     * certificate authorities recorded with the @cert-authority marker.
+     * The connection must be refused.
+     */
+    SSH_KNOWN_HOSTS_CERT_UNKNOWN_CA,
 };
 
 #ifndef MD5_DIGEST_LEN
